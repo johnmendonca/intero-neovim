@@ -95,16 +95,13 @@ function! intero#repl#type_at(generic, l1, c1, l2, c2) abort
     endif
 
     if s:ghci_supports_type_at_and_uses()
-        if g:intero_backend_info.backend ==# 'intero'
-            let l:module = intero#loc#detect_module()
+        let l:module = intero#loc#detect_module()
 
+        if g:intero_backend_info.backend ==# 'intero'
             " Fixup tabs for Stack
             let l:col1 = intero#util#getcol(a:l1, a:c1)
             let l:col2 = intero#util#getcol(a:l2, a:c2)
         else
-            " Relative path to current file, quoted.
-            let l:module = '"' . @% . '"'
-
             " Weird difference where regular GHCi needs the end column to be
             " beyond the last character of the selection, as opposed to how
             " Intero wants it:
